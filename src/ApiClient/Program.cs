@@ -1,3 +1,5 @@
+using ApiClient;
+
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -14,10 +16,16 @@ builder.Host.UseOrleansClient(client =>
  })
     .ConfigureLogging(logging => logging.AddConsole())
     .UseConsoleLifetime();
+
+
+//Add hosted service to send notifications from queue
+builder.Services.AddHostedService<NotificationSenderHostedService>();
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 
 var app = builder.Build();
 
